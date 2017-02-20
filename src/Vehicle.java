@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Map;
 import java.util.Random;
 
 public class Vehicle {
@@ -8,10 +7,11 @@ public class Vehicle {
 	public EMERGENCYTYPE emergencyType;
 	public MALFUNCTIONTYPE malfunctionType;
 	public int numOfPeople;
+	public int groupOrder;
 	public double lostPrivacy;
 	public double totalPrivacy;
 	public boolean isTurn;
-	
+
 	// public double vehiclePrivacy;
 	// public double emergencyPrivacy;
 	// public double malfunctionPrivacy;
@@ -118,7 +118,7 @@ public class Vehicle {
 		}
 		return minIndex;
 	}
-	
+
 	public double makeOffer() {
 		int min = getMinPrivacy();
 		if (min == 0 && privacy[0] < 0.2) {
@@ -126,7 +126,9 @@ public class Vehicle {
 					+ Main.formatter.format(this.vehicleType.getValue() * Main.proportionVehicleType));
 			this.lostPrivacy += privacy[0];
 			utility += this.vehicleType.getValue() * Main.proportionVehicleType;
-			return this.vehicleType.getValue() * Main.proportionVehicleType;
+			
+			//group order affects negatively
+			return this.vehicleType.getValue() * (1 - this.groupOrder * 0.1) * Main.proportionVehicleType;
 		}
 		if (min == 1 && privacy[1] < 0.2) {
 			System.out.println("\tEmergency Type Offer\n\tprivacy = " + privacy[1] + " utility = "
@@ -153,12 +155,12 @@ public class Vehicle {
 		return 0;
 	}
 
-	public double makeOffer(double opponentOffer,boolean isTurnBased) {
+	public double makeOffer(double opponentOffer, boolean isTurnBased) {
 		double newOffer = 0;
 		double offerLostPrivacy = 0;
 		int min;
 		do {
-			if(isTurnBased) {
+			if (isTurnBased) {
 				min = getMinPrivacy(isTurnBased);
 			} else {
 				min = getMinPrivacy();
@@ -202,6 +204,30 @@ public class Vehicle {
 		}
 		this.lostPrivacy += offerLostPrivacy;
 		return newOffer;
+
+	}
+
+	public double calculateUtilityPoints() {
+		double res = 0;
+
+		if (privacy[0] < 0.2) {
+
+			res += this.vehicleType.getValue() * Main.proportionVehicleType;
+		}
+		if (privacy[1] < 0.2) {
+
+			res += this.emergencyType.getValue() * Main.proportionEmergencyType;
+		}
+		if (privacy[2] < 0.2) {
+
+			res += this.malfunctionType.getValue() * Main.proportionMalfunctionType;
+		}
+		if (privacy[3] < 0.2) {
+
+			res += this.numOfPeople / 50.0 * Main.proportionNumberPeople;
+		}
+
+		return res;
 
 	}
 
