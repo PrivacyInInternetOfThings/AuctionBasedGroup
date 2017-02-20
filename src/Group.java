@@ -6,7 +6,8 @@ import com.sun.xml.internal.bind.v2.runtime.unmarshaller.XsiNilLoader.Array;
 public class Group {
 
 	ArrayList<Vehicle> vehicles = new ArrayList<>();
-
+	ArrayList<Vehicle> sortedVehicles = new ArrayList<>();
+	
 	public Group() {
 
 	}
@@ -14,7 +15,7 @@ public class Group {
 	public void addVehicle(Vehicle v) {
 		v.groupOrder = vehicles.size();
 		vehicles.add(v);
-		
+		sortedVehicles = sortVehicles();
 	}
 
 	public ArrayList<Vehicle> sortVehicles() {
@@ -50,7 +51,17 @@ public class Group {
 	}
 	
 	
-	public double makeOffer(){
-		
+	public double makeOffer(double opponentOffer){
+		return sortedVehicles.get(0).makeOffer(opponentOffer,sortedVehicles.get(0).isTurn);
+	}
+	
+	public void updateGroup(int outCar) {
+		for (int i = 0; i < outCar; i++) {
+			vehicles.remove(0);	
+		}
+		for (int i = 0; i < vehicles.size(); i++) {
+			vehicles.get(i).groupOrder = i;
+		}
+		this.sortedVehicles = this.sortVehicles();
 	}
 }
