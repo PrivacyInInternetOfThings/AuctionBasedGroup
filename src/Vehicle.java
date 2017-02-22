@@ -11,6 +11,7 @@ public class Vehicle {
 	public double lostPrivacy;
 	public double totalPrivacy;
 	public boolean isTurn;
+	public int id;
 
 	// public double vehiclePrivacy;
 	// public double emergencyPrivacy;
@@ -26,13 +27,14 @@ public class Vehicle {
 
 	public double utility;
 
-	public Vehicle(VEHICLETYPE vehicle, EMERGENCYTYPE emergency, MALFUNCTIONTYPE malfunction, int num) {
+	public Vehicle(VEHICLETYPE vehicle, EMERGENCYTYPE emergency, MALFUNCTIONTYPE malfunction, int num, int id) {
 		this.vehicleType = vehicle;
 		this.emergencyType = emergency;
 		this.malfunctionType = malfunction;
 		this.numOfPeople = num;
 		this.utility = 0;
 		this.lostPrivacy = 0;
+		this.id = id;
 		/*
 		 * setPrivacyRandom(); for (int i = 0; i < 4; i++) {
 		 * System.out.print(privacy[i] + " "); } System.out.println();
