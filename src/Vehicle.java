@@ -158,6 +158,7 @@ public class Vehicle {
 	public double makeOffer(double opponentOffer, boolean isTurnBased) {
 		double newOffer = 0;
 		double offerLostPrivacy = 0;
+		ArrayList<Integer> used = new ArrayList<>();
 		int min;
 		do {
 			if (isTurnBased) {
@@ -169,6 +170,7 @@ public class Vehicle {
 				System.out.println("\tVehicle Type Offer\n\tprivacy = " + privacy[0] + " utility = "
 						+ Main.formatter.format(this.vehicleType.getValue() * Main.proportionVehicleType));
 				offerLostPrivacy += privacy[0];
+				used.add(0);
 				utility += this.vehicleType.getValue() * Main.proportionVehicleType;
 				newOffer += this.vehicleType.getValue() * Main.proportionVehicleType;
 			}
@@ -176,6 +178,7 @@ public class Vehicle {
 				System.out.println("\tEmergency Type Offer\n\tprivacy = " + privacy[1] + " utility = "
 						+ Main.formatter.format(this.emergencyType.getValue() * Main.proportionEmergencyType));
 				offerLostPrivacy += privacy[1];
+				used.add(1);
 				utility += this.emergencyType.getValue() * Main.proportionEmergencyType;
 				newOffer += this.emergencyType.getValue() * Main.proportionEmergencyType;
 			}
@@ -183,6 +186,7 @@ public class Vehicle {
 				System.out.println("\tMalfunction Type Offer\n\tprivacy = " + privacy[2] + " utility = "
 						+ Main.formatter.format(this.malfunctionType.getValue() * Main.proportionMalfunctionType));
 				offerLostPrivacy += privacy[2];
+				used.add(2);
 				utility += this.malfunctionType.getValue() * Main.proportionMalfunctionType;
 				newOffer += this.malfunctionType.getValue() * Main.proportionMalfunctionType;
 			}
@@ -190,6 +194,7 @@ public class Vehicle {
 				System.out.println("\tNumber of People Offer\n\tprivacy = " + privacy[3] + " utility = "
 						+ Main.formatter.format(this.numOfPeople / 50.0 * Main.proportionNumberPeople));
 				offerLostPrivacy += privacy[3];
+				used.add(3);
 				utility += this.numOfPeople / 50.0 * Main.proportionNumberPeople;
 				newOffer += this.numOfPeople / 50.0 * Main.proportionNumberPeople;
 			}
@@ -199,7 +204,9 @@ public class Vehicle {
 		} while (newOffer <= opponentOffer);
 
 		if (newOffer <= opponentOffer) {
-
+			for (int i = 0; i < used.size(); i++) {
+				enabled[used.get(i)] = false; 
+			}
 			return 0;
 		}
 		this.lostPrivacy += offerLostPrivacy;

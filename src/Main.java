@@ -25,7 +25,7 @@ public class Main {
 		v3.setPrivacy(0.25, 0.25, 0.25, 0.25);
 		v4.setPrivacy(0.094, 0.19, 0.18, 0.17);
 		v5.setPrivacy(0.171, 0.066, 0.22, 0.174);
-		v5.isTurn = true;
+		//v5.isTurn = true;
 
 		ArrayList<Vehicle> vehicles = new ArrayList<>();
 		vehicles.add(v1);
@@ -48,8 +48,9 @@ public class Main {
 		groups.add(g2);
 		
 		
-		for (int i = 0; i < vehicles.size(); i++) {
-			for (int j = i + 1; j < vehicles.size(); j++) {
+		for (int i = 0; i < groups.size(); i++) {
+			for (int j = i + 1; j < groups.size(); j++) {
+				System.out.println("Groups");
 				System.out.println("v1 = Vehicle " + (i + 1) + " v2 = Vehicle " + (j + 1));
 				makeNegotiation(groups.get(i), groups.get(j));
 /*				System.out.println("---------------------------------");
