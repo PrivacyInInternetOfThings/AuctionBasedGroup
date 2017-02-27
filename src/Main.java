@@ -35,12 +35,12 @@ public class Main {
 		vehicles.add(v4);
 		vehicles.add(v5);
 
-		Group g1 = new Group();
+		Group g1 = new Group(1);
 		g1.addVehicle(v1);
 		g1.addVehicle(v2);
 		g1.addVehicle(v3);
 
-		Group g2 = new Group();
+		Group g2 = new Group(2);
 		g2.addVehicle(v4);
 		g2.addVehicle(v5);
 
@@ -48,28 +48,11 @@ public class Main {
 		groups.add(g1);
 		groups.add(g2);
 
+		displayGroups(g1, g2);
+
 		for (int i = 0; i < groups.size(); i++) {
 			for (int j = i + 1; j < groups.size(); j++) {
-				System.out.println("Groups");
-				System.out.println("v1 = Vehicle " + (i + 1) + " v2 = Vehicle " + (j + 1));
 				makeNegotiation(groups.get(i), groups.get(j));
-				/*
-				 * System.out.println("---------------------------------"); if
-				 * (result == 1) { System.out.println("Vehicle " + (i + 1) +
-				 * " gets priority"); } else { System.out.println("Vehicle " +
-				 * (j + 1) + " gets priority"); }
-				 * System.out.println("v1 lostPrivacy: " +
-				 * formatter.format(vehicles.get(i).lostPrivacy) + "/" +
-				 * formatter.format(vehicles.get(i).totalPrivacy) + " " +
-				 * formatter.format(100*vehicles.get(i).lostPrivacy /
-				 * vehicles.get(i).totalPrivacy) + "%" + " v2 lostPrivacy: " +
-				 * formatter.format(vehicles.get(j).lostPrivacy) + "/" +
-				 * formatter.format(vehicles.get(j).totalPrivacy) + " " +
-				 * formatter.format(100*vehicles.get(j).lostPrivacy /
-				 * vehicles.get(j).totalPrivacy) + "%");
-				 * vehicles.get(i).clear(); vehicles.get(j).clear();
-				 * System.out.println(); System.out.println();
-				 */
 			}
 		}
 		System.out.println();
@@ -110,6 +93,7 @@ public class Main {
 			if (utility1 >= utility2) {
 				System.out.println("Updating Group 1");
 				g1.updateGroup(g1.sortedVehicles.get(0).groupOrder);
+				displayGroups(g1, g2);
 
 				utility1 = 0;
 				oldUtility1 = 0;
@@ -117,17 +101,49 @@ public class Main {
 				System.out.println("Updating Group 2");
 				g2.updateGroup(g2.sortedVehicles.get(0).groupOrder);
 
+				displayGroups(g1, g2);
 				utility2 = 0;
 				oldUtility2 = 0;
 			}
-			
+
 		}
-		
-		if(!g1.vehicles.isEmpty()){
-			g1.updateGroup(g1.vehicles.size()-1);
-		}else if(!g2.vehicles.isEmpty()){
-			g2.updateGroup(g2.vehicles.size()-1);
+
+		if (!g1.vehicles.isEmpty()) {
+			g1.updateGroup(g1.vehicles.size() - 1);
+		} else if (!g2.vehicles.isEmpty()) {
+			g2.updateGroup(g2.vehicles.size() - 1);
 		}
+
+	}
+
+	public static void displayGroups(Group g1, Group g2) {
+		System.out.println();
+		System.out.println("-----------------------------------------------------------------------------------------");
+		System.out.println("Positions of Groups");
+		System.out.println("Group " + g1.id + "\t\t\t\t\t|\tGroup " + g2.id);
+
+		for (int i = 0; i < Math.max(g1.vehicles.size(), g2.vehicles.size()); i++) {
+			if (i < g1.vehicles.size()) {
+				System.out.print(g1.vehicles.get(i));
+				if (g1.vehicles.get(i).equals(g1.sortedVehicles.get(0))) {
+					System.out.print("   <-");
+				}
+			} else {
+				System.out.print("\t\t\t\t");
+			}
+
+			System.out.print("\t|\t");
+
+			if (i < g2.vehicles.size()) {
+				System.out.print(g2.vehicles.get(i));
+				if (g2.vehicles.get(i).equals(g2.sortedVehicles.get(0))) {
+					System.out.print(" <-");
+				}
+			}
+			System.out.println();
+		}
+
+		System.out.println("-----------------------------------------------------------------------------------------");
 
 	}
 

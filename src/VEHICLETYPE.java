@@ -1,6 +1,5 @@
 public enum VEHICLETYPE {
-	EMERGENCY(1), 
-	ORDINARY(0.1);
+	EMERGENCY(1), ORDINARY(0.1);
 
 	double utilityValue;
 
@@ -10,5 +9,14 @@ public enum VEHICLETYPE {
 
 	public double getValue() {
 		return this.utilityValue;
+	}
+
+	public static String abbreviation(VEHICLETYPE v) {
+		if (v == VEHICLETYPE.EMERGENCY) {
+			return "EMR";
+		} else if (v == VEHICLETYPE.ORDINARY) {
+			return "ORD";
+		}
+		return null;
 	}
 }

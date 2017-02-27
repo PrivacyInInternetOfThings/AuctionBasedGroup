@@ -12,6 +12,7 @@ public class Vehicle {
 	public double totalPrivacy;
 	public boolean isTurn;
 	public int id;
+	// Add threshold
 
 	// public double vehiclePrivacy;
 	// public double emergencyPrivacy;
@@ -128,8 +129,8 @@ public class Vehicle {
 					+ Main.formatter.format(this.vehicleType.getValue() * Main.proportionVehicleType));
 			this.lostPrivacy += privacy[0];
 			utility += this.vehicleType.getValue() * Main.proportionVehicleType;
-			
-			//group order affects negatively
+
+			// group order affects negatively
 			return this.vehicleType.getValue() * (1 - this.groupOrder * 0.1) * Main.proportionVehicleType;
 		}
 		if (min == 1 && privacy[1] < 0.2) {
@@ -207,7 +208,7 @@ public class Vehicle {
 
 		if (newOffer <= opponentOffer) {
 			for (int i = 0; i < used.size(); i++) {
-				enabled[used.get(i)] = false; 
+				enabled[used.get(i)] = false;
 			}
 			return 0;
 		}
@@ -237,6 +238,14 @@ public class Vehicle {
 		}
 
 		return res;
+
+	}
+
+	public String toString() {
+
+		return this.id + "\t" + VEHICLETYPE.abbreviation(this.vehicleType) + "\t"
+				+ EMERGENCYTYPE.abbreviation(this.emergencyType) + "\t"
+				+ MALFUNCTIONTYPE.abbreviation(this.malfunctionType) + "\t" + this.numOfPeople;
 
 	}
 
