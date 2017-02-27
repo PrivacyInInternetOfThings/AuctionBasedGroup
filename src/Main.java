@@ -35,7 +35,7 @@ public class Main {
 		vehicles.add(v4);
 		vehicles.add(v5);
 
-		Group g1 = new Group(1);
+		Group g1 = new Group(5);
 		g1.addVehicle(v1);
 		g1.addVehicle(v2);
 		g1.addVehicle(v3);
@@ -62,18 +62,22 @@ public class Main {
 		// Auction
 		double oldUtility1 = 0, oldUtility2 = 0;
 		double utility1 = 0, utility2 = 0;
-		System.out.println("\n-----------" + "Turn for g" + 1 + "-----------\n");
+		System.out.println("\n-----------" + "Turn for Group " + g1.id + "-----------\n");
+		System.out.println("Group Leader: Vehicle " + g1.sortedVehicles.get(0).id);
+		System.out.println("Offer:");
 		utility1 += g1.makeOffer(0);
-		System.out.println("\ng1 utility: " + utility1 + " g2 utility: " + utility2);
+		System.out.println("\ng"+g1.id+" utility: " + utility1 + "\ng"+g2.id+" utility: " + utility2);
 		int turn = 2, count = 0;
 
 		while (!g1.vehicles.isEmpty() && !g2.vehicles.isEmpty()) {
-			while (++count < 15) {
-				System.out.println("\n-----------" + "Turn for g" + turn + "-----------\n");
+			while (true) {
+				System.out.println("\n-----------" + "Turn for Group " + (turn == 1 ? g1.id : g2.id) + "-----------\n");
 				if (turn == 1) {
 					oldUtility1 = utility1;
+					System.out.println("Group Leader: Vehicle " + g1.sortedVehicles.get(0).id);
+					System.out.println("Offer:");
 					utility1 += g1.makeOffer(utility2);
-					System.out.println("\ng1 utility: " + utility1 + " g2 utility: " + utility2);
+					System.out.println("\ng"+g1.id+" utility: " + utility1 + "\ng"+g2.id+" utility: " + utility2);
 					turn = 2;
 					if (utility1 - oldUtility1 < 0.0000001) {
 						break;
@@ -81,8 +85,10 @@ public class Main {
 
 				} else {
 					oldUtility2 = utility2;
+					System.out.println("Group Leader: Vehicle " + g2.sortedVehicles.get(0).id);
+					System.out.println("Offer:");
 					utility2 += g2.makeOffer(utility1);
-					System.out.println("\ng1 utility: " + utility1 + " g2 utility: " + utility2);
+					System.out.println("\ng"+g1.id+" utility: " + utility1 + "\ng"+g2.id+" utility: " + utility2);
 					turn = 1;
 					if (utility2 - oldUtility2 < 0.0000001) {
 						break;
@@ -91,14 +97,18 @@ public class Main {
 				}
 			}
 			if (utility1 >= utility2) {
-				System.out.println("Updating Group 1");
+				System.out.println();
+				System.out.println("Group " + g1.id + " Won!");
+				System.out.println("Updating Group " + g1.id);
 				g1.updateGroup(g1.sortedVehicles.get(0).groupOrder);
 				displayGroups(g1, g2);
 
 				utility1 = 0;
 				oldUtility1 = 0;
 			} else {
-				System.out.println("Updating Group 2");
+				System.out.println();
+				System.out.println("Group " + g2.id + " Won!");
+				System.out.println("Updating Group " + g2.id);
 				g2.updateGroup(g2.sortedVehicles.get(0).groupOrder);
 
 				displayGroups(g1, g2);

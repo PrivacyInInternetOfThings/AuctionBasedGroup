@@ -55,7 +55,7 @@ public class Group {
 
 	public boolean updateGroup(int outCar) {
 		for (int i = 0; i <= outCar; i++) {
-			System.out.println("Vehicle " + vehicles.get(0).id + " is passing");
+			System.out.println("Vehicle " + vehicles.get(0).id + " has passed");
 			vehicles.remove(0);
 		}
 		for (int i = 0; i < vehicles.size(); i++) {
